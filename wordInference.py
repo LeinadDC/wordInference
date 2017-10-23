@@ -1,6 +1,3 @@
-
-
-
 oracion = """El resto della concluían sayo de velarte, calzas de
 velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de
 entresemana se honraba con su vellorí de lo más fino. Tenía en su casa una
@@ -34,6 +31,7 @@ for word in test:
         pronombresList.append(word)
     else:
         palabrasNoAba.append(word)
+
 
 print("Verbos en Pasado")
 print(palabrasAba)
