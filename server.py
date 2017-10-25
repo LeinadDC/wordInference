@@ -2,7 +2,7 @@ import os
 from flask import Flask,request,redirect,url_for,render_template
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/home/ubuntu/workspace/txtApi'
+UPLOAD_FOLDER = '/home/ubuntu/workspace/wordInference'
 ALLOWED_EXTENSIONS = set(['txt'])
 
 app = Flask(__name__)
@@ -33,8 +33,8 @@ def uploadFile():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploadFile',
                                     filename=filename))
+            
     return render_template('upload.html')
-
 
 
 

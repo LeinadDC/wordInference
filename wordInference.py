@@ -1,3 +1,7 @@
+import redis
+
+r = redis.Redis(host='127.0.0.1', port=6379, db=0)
+
 oracion = """El resto della concluían sayo de velarte, calzas de
 velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de
 entresemana se honraba con su vellorí de lo más fino. Tenía en su casa una
@@ -56,3 +60,15 @@ print(pronombresList)
 print("Palabras no procesadas")
 print(palabrasNoAba)
 
+adjetivosLista = []                            
+with open('sustantivos.txt' ,'r') as f:
+    adjetivos = [line.strip() for line in f]
+    adjetivosLista.append(adjetivos)
+    
+print("LISTA")    
+print(adjetivosLista)
+
+print("Redis")
+r.set('foo', 'bar')
+value = r.get('foo')
+print(value)
