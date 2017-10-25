@@ -5,7 +5,8 @@ ama que pasaba de los cuarenta, y una sobrina que no llegaba a los veinte,
 y un mozo de campo y plaza, que así ensillaba el rocín como tomaba la
 podadera. Frisaba la edad de nuestro hidalgo con los cincuenta años; era de
 complexión recia, seco de carnes, enjuto de rostro, gran madrugador y amigo
-de la caza. Cazar estaba ido en el mar, cuando de pronto me encontré nadando"""
+de la caza. Luego de esto, el hombre se fue a
+cazar estaba ido en el mar, cuando de pronto se encontró nadando en el agua"""
 
 
 test = oracion.split(" ")
@@ -20,9 +21,23 @@ gerundios = ['ndo']
 participio = ['ado','ido','to','so','cho']
 
 ###Pronombres
-pronombres = ['yo','tu','vos','usted','el','ella','ello','nosotras','nosotros','vosotras'
+pronombres = ['yo','tu','tú','vos','usted','el','ella','ello','nosotras','nosotros','vosotras'
             'vosotros','ustedes','ellos','ellas','me','te','se','lo','la','le'
-            'se','nos','os','los','las','les']
+            'se','nos','os','los','las','les','mío','tuyo','suyo','suya','tuya','mía','tuyos',
+              'tuyas','mías','suyos']
+##Preposiciones
+preposiciones = ['a','ante','bajo','cabe','con','contra','de','desde','en','entre','hacia'
+                'hasta','para','por','segun','sin','sobre','tras'
+                'durante','mediante','excepto','salvo','incluso','más','menos','acerca de'
+                'al lado de','antes de','alrededor de','a pesar de','cerca de','con arreglo a',
+                'debajo de','delante de','dentro de','después de','detrás de','encima de',
+                'en cuanto a','enfrente de','fuera de','frente a','gracias a','junto a',
+                'lejos de','por culpa','y']
+
+"""Chequea si tiene alguna terminación de verbo, si lo tiene entonces
+se extrae la raiz y se la agregan todas las terminaciones, luego se le meten
+en la base de datos.
+Si no lo tiene se chequea si es sustantivo o adjetivo"""
 
 
 for word in test:
@@ -38,6 +53,6 @@ print("Verbos")
 print(palabrasAba)
 print("Pronombres")
 print(pronombresList)
-print("Otros")
+print("Palabras no procesadas")
 print(palabrasNoAba)
 
