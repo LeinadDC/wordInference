@@ -65,6 +65,11 @@ with open('sustantivos.txt' ,'r') as f:
     adjetivos = [line.strip() for line in f]
     adjetivosLista.append(adjetivos)
     
+data = [line.strip() for line in open('sustantivos.txt', 'r')]
+texts = [[word.lower() for word in text.split()] for text in data]
+
+    
+    
 print("LISTA")    
 print(adjetivosLista)
 
@@ -72,3 +77,32 @@ print("Redis")
 r.set('foo', 'bar')
 value = r.get('foo')
 print(value)
+
+
+print("Minuscula")
+print(texts)
+
+
+print("LISTA REDIS")
+value = r.lrange('test2',0,-1)
+
+for word in value:
+    if word.startswith(b'a'):
+        if word == b'arco':
+            print("IGUAL A ANIMAL")
+        else:
+            print(word)
+print(value)
+print(r.llen('test2'))
+
+pruebita = []
+
+with open('gran_rebelion.txt','r') as f:
+    for line in f:
+        for word in line.split():
+            if word in preposiciones:
+                pruebita.append(word)
+
+print("PRUEBITA")           
+print(pruebita)
+print(len(pruebita))
