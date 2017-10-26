@@ -86,23 +86,30 @@ print(texts)
 print("LISTA REDIS")
 value = r.lrange('test2',0,-1)
 
+listaUTF = []
+
 for word in value:
-    if word.startswith(b'a'):
-        if word == b'arco':
-            print("IGUAL A ANIMAL")
-        else:
-            print(word)
-print(value)
+    test = word.decode("utf-8")
+    listaUTF.append(test)
+        
+print(listaUTF)
 print(r.llen('test2'))
 
 pruebita = []
+pruebita2 = []
 
 with open('gran_rebelion.txt','r') as f:
     for line in f:
         for word in line.split():
             if word in preposiciones:
                 pruebita.append(word)
+            elif word in listaUTF:
+                pruebita2.append(word)
+                
 
-print("PRUEBITA")           
-print(pruebita)
+print("Preposiciones")
 print(len(pruebita))
+print(pruebita)
+print("UTF")
+print(len(pruebita2))
+print(pruebita2)
