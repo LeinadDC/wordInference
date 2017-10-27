@@ -41,26 +41,37 @@ def codifique_utf8(listaBuscada):
 
 
 def open_txt():
-    with open("gran_rebelion.txt",'r') as txt:
-        listaSustantivos = fetch_sustantivos()
-        listaAdjetivos = fetch_adjetivos()
-        listaPronombres = fetch_pronombres()
-        listaPreposiciones = fetch_preposiciones()
-        listaTerminacionesVerbos = fetch_verbos()
-        
-        for line in txt:
-            for word in line.split():
-                if word in listaSustantivos:
-                    print("Sustantivo")
-                elif word in listaAdjetivos:
-                    print("Adjetivo")
-                elif word in listaPronombres:
-                    print("Pronombre")
-                elif word in listaPreposiciones:
-                    print("Preposiciones")
-                elif word.endswith(tuple(listaTerminacionesVerbos)):
-                    print("Verbo")
-                else:
-                    print("Palabra no procesada")
+    sustantivosEncontrados = []
+    adjetivosEncontrados = []
+    verbosEncontrados = []
+    pronombresEncontrados = []
+    preposicionesEnccontradas = []
+    palabraDesconocida = []
+    
+    try:
+        with open("gran_rebelion.txt",'r') as txt:
+            listaSustantivos = fetch_sustantivos()
+            listaAdjetivos = fetch_adjetivos()
+            listaPronombres = fetch_pronombres()
+            listaPreposiciones = fetch_preposiciones()
+            listaTerminacionesVerbos = fetch_verbos()
+            
+            for line in txt:
+                for word in line.split():
+                    if word in listaSustantivos:
+                        sustantivosEncontrados.append(word)
+                    elif word in listaAdjetivos:
+                        adjetivosEncontrados.append(word)
+                    elif word in listaPronombres:
+                        pronombresEncontrados.append(word)
+                    elif word in listaPreposiciones:
+                        preposicionesEnccontradas.append(word)
+                    elif word.endswith(tuple(listaTerminacionesVerbos)):
+                        verbosEncontrados.append(word)
+                    else:
+                        palabraDesconocida.append(word)
+    except:
+        print("Error")
+    print(preposicionesEnccontradas)    
                             
 open_txt()
