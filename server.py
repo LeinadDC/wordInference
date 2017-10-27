@@ -36,6 +36,10 @@ def uploadFile():
             
     return render_template('upload.html')
 
+@app.route('/countWords',methods = ['GET','POST'])
+def countWords():
+    
+
 
 
 
