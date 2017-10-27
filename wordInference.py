@@ -23,6 +23,11 @@ def fetch_verbos():
     listaDatos = codifique_utf8(listaBuscada)
     return listaDatos
 
+def fetch_pronombres():
+    listaBuscada = obtenga_redis("pronombres")
+    listaDatos = codifique_utf8(listaBuscada)
+    return listaDatos    
+
 def obtenga_redis(listName):
     valuer = (r.lrange(listName,0,-1))
     return valuer
@@ -33,45 +38,29 @@ def codifique_utf8(listaBuscada):
         val = word.decode("utf-8")
         listaDatos.append(val)
     return listaDatos    
-    
-print(fetch_verbos())
 
-"""
-verbos =[]   
-def open_file():
-    with open('gran_rebelion.txt', 'r') as inF:
-            
-        for line in inF:
+
+def open_txt():
+    with open("gran_rebelion.txt",'r') as txt:
+        listaSustantivos = fetch_sustantivos()
+        listaAdjetivos = fetch_adjetivos()
+        listaPronombres = fetch_pronombres()
+        listaPreposiciones = fetch_preposiciones()
+        listaTerminacionesVerbos = fetch_verbos()
+        
+        for line in txt:
             for word in line.split():
-                if word.endswith(tuple):
-                    verbos.append(word)
-                
-                
-    print(verbos)            
-
-"""
-
-
-"""
-with open("gran_rebelion.txt","r") as f:
-    for line in f:
-        for word in line.split():
-            if word in preposiciones:
-                pruebita.append(word)
-            elif word in listaUTF:
-                pruebita2.append(word)
-
-def fill_redis_data():
-    #SUSTANTIVOS
-    for sustantivo in listaUTF:
-        r.lpush("sustantivosMin",sustantivo)
-    print(r.lrange("sustantivosMin",0,-1))    
-    
-    #ADJETIVOS
-    
-    #PRONOMBRES
-    
-    #PREPOSICIONES
-    
-    #TERMINACIONES VERBALES REGULARES NO PERSONALES
-fill_redis_data()    """
+                if word in listaSustantivos:
+                    print("Sustantivo")
+                elif word in listaAdjetivos:
+                    print("Adjetivo")
+                elif word in listaPronombres:
+                    print("Pronombre")
+                elif word in listaPreposiciones:
+                    print("Preposiciones")
+                elif word.endswith(tuple(listaTerminacionesVerbos)):
+                    print("Verbo")
+                else:
+                    print("Palabra no procesada")
+                            
+open_txt()
