@@ -3,49 +3,53 @@ import redis
 r = redis.Redis(host="127.0.0.1", port=6379, db=0)
 
 
-listaUTF = []
-listaUTF2 = []
-    
+def fetch_adjetivos():
+    listaBuscada = obtenga_redis("adjetivosMin2")
+    listaDatos = codifique_utf8(listaBuscada)
+    return listaDatos     
 
 def fetch_sustantivos():
-    valuer = (r.lrange("adjetivosMin2",0,-1))
-    for word in valuer:
-        val = word.decode("utf-8")
-        listaUTF.append(val)
-
-def fetch_adjetivos():
-    valuer = (r.lrange("preposiciones",0,-1))
-    for word in valuer:
-        val = word.decode("utf-8")
-        listaUTF.append(val)
+    listaBuscada = obtenga_redis("sustantivosMin")
+    listaDatos = codifique_utf8(listaBuscada)
+    return listaDatos     
 
 def fetch_preposiciones():
-    valuer = (r.lrange("preposiciones",0,-1))
-    for word in valuer:
-        val = word.decode("utf-8")
-        listaUTF.append(val)    
-    return listaUTF    
+    listaBuscada = obtenga_redis("preposiciones")
+    listaDatos = codifique_utf8(listaBuscada) 
+    return listaDatos    
 
 def fetch_verbos():
-    valuer = (r.lrange("terminacionesVerbos",0,-1))
-    for word in valuer:
+    listaBuscada = obtenga_redis("terminacionesVerbos")
+    listaDatos = codifique_utf8(listaBuscada)
+    return listaDatos
+
+def obtenga_redis(listName):
+    valuer = (r.lrange(listName,0,-1))
+    return valuer
+
+def codifique_utf8(listaBuscada):
+    listaDatos = []
+    for word in listaBuscada:
         val = word.decode("utf-8")
-        listaUTF.append(val)
+        listaDatos.append(val)
+    return listaDatos    
+    
+print(fetch_verbos())
 
-print(listaUTF) 
-
+"""
 verbos =[]   
 def open_file():
     with open('gran_rebelion.txt', 'r') as inF:
+            
         for line in inF:
             for word in line.split():
-                if word.endswith(tuple(listaUTF)):
+                if word.endswith(tuple):
                     verbos.append(word)
                 
                 
     print(verbos)            
 
-
+"""
 
 
 """
