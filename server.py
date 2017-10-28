@@ -1,4 +1,4 @@
-import os
+import os,json
 from flask import Flask,request,redirect,url_for,render_template
 from werkzeug.utils import secure_filename
 import redis
@@ -16,10 +16,32 @@ def allowed_files(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/')
+###Este método necesita un poco más de trabajo para mostrar txt en servidor.
+@app.route('/index')
 def hello():
-    return 'Hello World'
+    txtList = []
+    json_data = {}
+    for file in os.listdir("/home/ubuntu/workspace/wordInference"):
+        if file.endswith(".txt"):
+            txtList.append(file)
+            json_data = json.dumps([dict(name=file) for pn in txtList])
+            
+    return render_template('index.html',data=[{'name':'gran_rebelion.txt'},{'name':'platillos_voladores.txt'}])
 
+
+@app.route('/wordCount', methods = ['GET','POST'])     
+def wordCount():
+    select = request.form.get('comp_select')
+    pesos = open_txt(select)
+
+    labels = ["Sustantivos", "Adjetivos", "Verbos", "Pronombres", "Preposiciones", "No procesadas"]
+    legend = "Cantidad de palabras"
+    values = []
+    for valor in pesos:
+        values.append(valor)
+    return render_template('chart.html', values=values,labels=labels,legend=legend)
+
+###Este método podría redireccionar al index.
 @app.route('/uploadFile', methods =['GET','POST'])
 def uploadFile():
     if request.method == 'POST':
@@ -33,17 +55,10 @@ def uploadFile():
         if file and allowed_files(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('countWords',
-                                    filename=filename))
+            return redirect(url_for('uploadFile'))
             
     return render_template('upload.html')
-
-@app.route("/simple_chart")
-def chart():
-    legend = 'Monthly Data'
-    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
-    return render_template('chart.html', values=values, labels=labels, legend=legend)
+    
  
 
 """AQUI INICIAN LOS MÉTODOS PROPIOS DE LA BASE DE DATOS"""
@@ -83,7 +98,7 @@ def codifique_utf8(listaBuscada):
         listaDatos.append(val)
     return listaDatos  
     
-def open_txt():
+def open_txt(libro):
     sustantivosEncontrados = []
     adjetivosEncontrados = []
     verbosEncontrados = []
@@ -92,7 +107,7 @@ def open_txt():
     palabraDesconocida = []
     
     try:
-        with open("gran_rebelion.txt",'r') as txt:
+        with open(libro,'r') as txt:
             listaSustantivos = fetch_sustantivos()
             listaAdjetivos = fetch_adjetivos()
             listaPronombres = fetch_pronombres()
@@ -116,7 +131,15 @@ def open_txt():
                         palabraDesconocida.append(word)
     except:
         print("Error")
-    print(adjetivosEncontrados)
+    pesos = []
+    pesos.append(len(sustantivosEncontrados))
+    pesos.append(len(adjetivosEncontrados))
+    pesos.append(len(verbosEncontrados))
+    pesos.append(len(pronombresEncontrados))
+    pesos.append(len(preposicionesEnccontradas))
+    pesos.append(len(palabraDesconocida))
+    
+    return pesos
 
 def clean_word(word):
      palabraMinuscula = word.lower()
