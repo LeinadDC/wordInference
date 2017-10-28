@@ -35,7 +35,7 @@ def obtenga_redis(listName):
 def codifique_utf8(listaBuscada):
     listaDatos = []
     for word in listaBuscada:
-        val = word.decode("utf-8")
+        val = word.decode("utf-8").lower()
         listaDatos.append(val)
     return listaDatos    
 
@@ -58,20 +58,27 @@ def open_txt():
             
             for line in txt:
                 for word in line.split():
-                    if word in listaSustantivos:
+                    palabraLimpia = clean_word(word)
+                    if palabraLimpia in listaSustantivos:
                         sustantivosEncontrados.append(word)
-                    elif word in listaAdjetivos:
+                    elif palabraLimpia in listaAdjetivos:
                         adjetivosEncontrados.append(word)
-                    elif word in listaPronombres:
+                    elif palabraLimpia in listaPronombres:
                         pronombresEncontrados.append(word)
-                    elif word in listaPreposiciones:
+                    elif palabraLimpia in listaPreposiciones:
                         preposicionesEnccontradas.append(word)
-                    elif word.endswith(tuple(listaTerminacionesVerbos)):
+                    elif palabraLimpia.endswith(tuple(listaTerminacionesVerbos)):
                         verbosEncontrados.append(word)
                     else:
                         palabraDesconocida.append(word)
     except:
         print("Error")
-    print(preposicionesEnccontradas)    
-                            
-open_txt()
+    print(adjetivosEncontrados)
+
+def clean_word(word):
+     palabraMinuscula = word.lower()
+     palabraSinPunto = palabraMinuscula.replace('.','')
+     palabraLimpia = palabraSinPunto.replace(',','')
+     return palabraLimpia
+    
+open_txt()    
